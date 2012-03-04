@@ -241,3 +241,63 @@ void ecrit_chaine_txt(ListeChaine * L, FILE * f)
 {
     displayListeChaine(f, L);
 }
+
+double longueurChaine(Chaine * L)
+{
+    Point *ptCourant = NULL;
+    Point *ptPrecedent = NULL;
+    double longueur = 0;
+    if (!L) {
+	leverErreur("longueurTotale");
+	return -1;
+    }
+    ptCourant = L->uneExtremite;
+    while (ptCourant) {
+	if (ptPrecedent) {
+	    /* calcule longueur entre pointPrecedent et pointCourant */
+	    longueur +=
+		sqrt(pow((ptCourant->x - ptPrecedent->y), 2.0) +
+		     pow((ptCourant->x - ptPrecedent->y), 2.0));
+	}
+	ptPrecedent = ptCourant;
+	ptCourant = ptCourant->ptSuiv;
+    }
+    return longueur;
+}
+
+double longueurTotale(ListeChaine * L)
+{
+    Chaine *courant = NULL;
+    double longueur = 0;
+    if (!L) {
+	leverErreur("longueurTotale");
+	return -1;
+    }
+    courant = L->LCh;
+    while (courant) {
+	longueur += longueurChaine(courant);
+	courant = courant->chSuiv;
+    }
+    return longueur;
+}
+
+int compte_point(ListeChaine * L)
+{
+    Chaine *courant = NULL;
+    Point *ptCourant = NULL;
+    double nbPoint = 0;
+    if (!L) {
+	leverErreur("longueurTotale");
+	return -1;
+    }
+    courant = L->LCh;
+    while (courant) {
+	ptCourant = courant->uneExtremite;
+	while (ptCourant) {
+	    nbPoint++;
+	    ptCourant = ptCourant->ptSuiv;
+	}
+	courant = courant->chSuiv;
+    }
+    return nbPoint;
+}

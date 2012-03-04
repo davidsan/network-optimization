@@ -32,6 +32,9 @@ int main(int argc, char **argv)
     lecture_chaine(f, L);
     /* displayListeChaine(stdout, L); */
 
+    printf("Nombre d'occurences de points total : %d\n", compte_point(L));
+    printf("Longueur totale : %g\n", longueurTotale(L));
+
     ecrit_entete_xfig(fig);
     ecrit_chaine_xfig(L, fig, 1000, 1);
 

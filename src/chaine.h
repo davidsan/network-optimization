@@ -5,6 +5,7 @@
 #include "erreur.h"
 #include "fichier.h"
 #include "stringTools.h"
+#include "math.h"
 
 /* Structure d’un point d’une chaine */
 typedef struct point {
@@ -54,5 +55,9 @@ int compterPoint(Point * debutListePoint);
 
 /* alias vers displayListeChaine(FILE *output, ListeChaine *LC) */
 void ecrit_chaine_txt(ListeChaine * L, FILE * f);
+
+double longueurChaine(Chaine * L);
+double longueurTotale(ListeChaine * L);
+int compte_point(ListeChaine * L);
 
 #endif
