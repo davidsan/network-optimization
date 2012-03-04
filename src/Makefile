@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall
 RM = rm -f
-SRC = erreur.c main.c fichier.c stringTools.c chaine.c
+SRC = erreur.c main.c fichier.c stringTools.c chaine.c xfigTools.c
 OBJ = $(SRC:.c=.o)
 EXEC = main
 
-SRC_TEST = erreur.c main.c fichier.c stringTools.c chaine.c
+SRC_TEST = erreur.c main.c fichier.c stringTools.c chaine.c xfigTools.c
 EXEC_TEST = test
 
 all: $(EXEC)
