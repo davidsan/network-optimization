@@ -1,12 +1,10 @@
 CC = gcc
 CFLAGS = -Wall
+LDFLAGS = -lm
 RM = rm -f
 SRC = erreur.c main.c fichier.c stringTools.c chaine.c xfigTools.c
 OBJ = $(SRC:.c=.o)
 EXEC = main
-
-SRC_TEST = erreur.c main.c fichier.c stringTools.c chaine.c xfigTools.c
-EXEC_TEST = test
 
 all: $(EXEC)
 
@@ -19,15 +17,12 @@ all: $(EXEC)
 	$(CC) $(CFLAGS) -c $^
 
 $(EXEC): $(OBJ)
-	$(CC) -o $@ $^
-
-$(EXEC_TEST): $(SRC_TEST:.c=.o)
-	$(CC) -o $@ $^
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJ) .depend
 
 mrproper:
-	$(RM) $(OBJ) $(EXEC) $(EXEC_TEST) .depend
+	$(RM) $(OBJ) $(EXEC) .depend
 
 .PHONY: all clean mrproper
