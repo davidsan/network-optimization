@@ -256,8 +256,8 @@ double longueurChaine(Chaine * L)
 	if (ptPrecedent) {
 	    /* calcule longueur entre pointPrecedent et pointCourant */
 	    longueur +=
-		sqrt(pow((ptCourant->x - ptPrecedent->y), 2.0) +
-		     pow((ptCourant->x - ptPrecedent->y), 2.0));
+		sqrt(pow((ptCourant->x - ptPrecedent->x), 2.0) +
+		     pow((ptCourant->y - ptPrecedent->y), 2.0));
 	}
 	ptPrecedent = ptCourant;
 	ptCourant = ptCourant->ptSuiv;
