@@ -20,6 +20,7 @@ void ecrit_chaine_xfig(ListeChaine * L, FILE * f, int zoom, int epaisseur)
     Point *pointPrecedent = NULL;
     if (!L) {
 	leverErreur("ecrit_chaine_xfig");
+	return;
     }
     chaineCourante = L->LCh;
     int i = 0;
@@ -49,5 +50,38 @@ void ecrit_chaine_xfig(ListeChaine * L, FILE * f, int zoom, int epaisseur)
 	}
 	i = (i + 1) % 4;
 	chaineCourante = chaineCourante->chSuiv;
+    }
+}
+
+void ecrit_reseau_xfig(Reseau * R, FILE * f, int zoom, int epaisseur)
+{
+    CelluleLNoeud *tmp = NULL;
+    Voisin *tmpVoisin = NULL;
+    Noeud *noeudVoisin = NULL;
+    if (!R) {
+	leverErreur("ecrit_reseau_xfig");
+	return;
+    }
+    tmp = R->LNoeuds;
+    while (tmp) {
+	/* afficher le point */
+	fprintf(f,
+		"1 4 0 %d 0 0 50 0 20 0.000 1 0.000 %d %d 25 25 0 0 0 0\n",
+		epaisseur, (int) (tmp->ptrnoeud->x * zoom),
+		(int) (tmp->ptrnoeud->y * zoom));
+	/* tracer les cables vers ses voisins */
+	tmpVoisin = tmp->ptrnoeud->LVoisins;
+	while (tmpVoisin) {
+	    noeudVoisin = rechercheNoeud(R->LNoeuds, tmpVoisin->v);
+	    fprintf(f, "2 1 0 %d %d 7 50 0 -1 0.000 0 0 -1 0 0 2\n",
+		    epaisseur, 8);
+	    fprintf(f, "         %d %d %d %d\n",
+		    (int) (tmp->ptrnoeud->x * zoom),
+		    (int) (tmp->ptrnoeud->y * zoom),
+		    (int) (noeudVoisin->x * zoom),
+		    (int) (noeudVoisin->y * zoom));
+	    tmpVoisin = tmpVoisin->voisSuiv;
+	}
+	tmp = tmp->noeudSuiv;
     }
 }

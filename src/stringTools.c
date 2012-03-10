@@ -29,3 +29,28 @@ int scanNumero(char *string)
     }
     return res;
 }
+
+int scanNbNodes(char *string)
+{
+    int res;
+    if (sscanf(string, "c NbNodes: %d", &res) != 1) {
+	leverErreur("lecture NbNodes (format incorrect)");
+	return -1;
+    }
+    return res;
+}
+
+int scanNbCables(char *string)
+{
+    int res;
+    if (sscanf(string, "c NbCables: %d", &res) != 1) {
+	leverErreur("lecture NbCables (format incorrect)");
+	return -1;
+    }
+    return res;
+}
+
+int isComment(char *string)
+{
+    return (string[0] == 'c');
+}
