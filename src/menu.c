@@ -1,8 +1,12 @@
+/**
+ * \file menu.c
+ * \brief Source de menu
+ * \author David San
+ */
 #include "menu.h"
 
 void showMenu()
 {
-    printf("\n");
     printf("****************************************************\n");
     printf("*                       Menu                       *\n");
     printf("****************************************************\n");
@@ -13,6 +17,11 @@ void showMenu()
     printf("5. Lecture fichier réseau\n");
     printf("6. Affiche le réseau\n");
     printf("7. Générer le dessin xfig du fichier réseau\n");
+    printf
+	("8. Conversion ListeChaine -> Réseau (via liste chainée triée)\n");
+    printf
+	("9. Conversion ListeChaine -> Réseau (via table de hachage)\n");
+    printf("10. Conversion ListeChaine -> Réseau (via arbre AVL)\n");
     printf("0. Quitter\n");
     printf("\n");
     printf("Votre choix : ");
@@ -41,6 +50,7 @@ void callChoix(FILE ** f, int choix, Reseau ** R, ListeChaine ** L)
 {
     FILE *output = NULL;
     char *stringInput = NULL;
+
     switch (choix) {
     case 1:
 	system("ls --format single-column ../res/*.cha ../res/*.res ");
@@ -54,6 +64,10 @@ void callChoix(FILE ** f, int choix, Reseau ** R, ListeChaine ** L)
 	*f = ouvrirFichier(stringInput);
 	break;
     case 2:
+	if (!*f) {
+	    printf("Aucun fichier ouvert\n");
+	    return;
+	}
 	if ((*L)->LCh) {
 	    printf("Liste de chaînes déjà lue\n");
 	    return;
@@ -81,7 +95,7 @@ void callChoix(FILE ** f, int choix, Reseau ** R, ListeChaine ** L)
 	break;
     case 4:
 	if (!L) {
-	    leverErreur("liste non initialisée");
+	    leverErreur("Liste non initialisée");
 	    break;
 	}
 	printf("Entrez le nom du fichier de sortie\n");
@@ -92,7 +106,7 @@ void callChoix(FILE ** f, int choix, Reseau ** R, ListeChaine ** L)
 	    return;
 	}
 	ecrit_entete_xfig(output);
-	ecrit_chaine_xfig(*L, output, 100, 1);
+	ecrit_chaine_xfig(*L, output, 200, 1);
 	fermerFichier(output);
 	break;
     case 5:
@@ -131,11 +145,58 @@ void callChoix(FILE ** f, int choix, Reseau ** R, ListeChaine ** L)
 	    return;
 	}
 	ecrit_entete_xfig(output);
-	ecrit_reseau_xfig(*R, output, 100, 1);
+	ecrit_reseau_xfig(*R, output, 200, 1);
 	fermerFichier(output);
 	break;
+    case 8:
+	if (!(*L)->LCh) {
+	    leverErreur("Liste de chaînes non initialisée");
+	    return;
+	}
+	if ((*R)->LNoeuds) {
+	    fprintf(stdout, "Destruction du réseau existant.\n");
+	    freeReseau(*R);
+	    fprintf(stdout, "Création d'un nouveau réseau vide.\n");
+	    *R = creerReseau();
+	}
+	recree_reseau(*L, *R);
+	fprintf(stdout,
+		"Création d'un réseau à partir de la ListeChaine terminé.\n");
+
+	break;
+    case 9:
+	if (!(*L)->LCh) {
+	    leverErreur("Liste de chaînes non initialisée");
+	    return;
+	}
+	if ((*R)->LNoeuds) {
+	    fprintf(stdout, "Destruction du réseau existant.\n");
+	    freeReseau(*R);
+	    fprintf(stdout, "Création d'un nouveau réseau vide.\n");
+	    *R = creerReseau();
+	}
+	Hachage *H = creerHachage(500);
+	recree_reseau_hachage(*L, *R, H);
+	fprintf(stdout,
+		"Création d'un réseau à partir de la ListeChaine terminé.\n");
+	freeHachage(H);
+	break;
+    case 10:
+	if (!(*L)->LCh) {
+	    leverErreur("Liste de chaînes non initialisée");
+	    return;
+	}
+	if ((*R)->LNoeuds) {
+	    fprintf(stdout, "Destruction du réseau existant.\n");
+	    freeReseau(*R);
+	    fprintf(stdout, "Création d'un nouveau réseau vide.\n");
+	    *R = creerReseau();
+	}
+	recree_reseau_AVL(*L, *R);
+	fprintf(stdout,
+		"Création d'un réseau à partir de la ListeChaine terminé.\n");
+	break;
     case 0:
-	printf("Fermeture en cours\n");
 	break;
     default:
 	printf("Erreur : choix non reconnu\n");

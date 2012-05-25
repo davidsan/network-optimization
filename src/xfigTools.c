@@ -1,3 +1,8 @@
+/**
+ * \file xfigTools.c
+ * \brief Source des outils xfig
+ * \author David San
+ */
 #include "xfigTools.h"
 
 void ecrit_entete_xfig(FILE * f)

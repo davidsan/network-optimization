@@ -1,3 +1,8 @@
+/**
+ * \file stringTools.c
+ * \brief Source des outils de manipulation des chaînes de caractères
+ * \author David San
+ */
 #include "stringTools.h"
 
 int scanNbChain(char *string)
