@@ -8,8 +8,8 @@
 #ifndef __DIJKSTRA_H__
 #define __DIJKSTRA_H__
 
+#include <float.h>
 #include "chaine.h"
-#include "float.h"
 #include "heap.h"
 #include "reseau.h"
 /**
